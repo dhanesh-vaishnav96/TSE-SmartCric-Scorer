@@ -123,7 +123,12 @@ def generate_scorecard_pdf(match):
         batting_data = [["BATSMAN", "STATUS", "R", "B", "4s", "6s", "SR"]]
         for name, p in team.players.items():
             if p.balls_faced > 0 or p.is_out:
-                status = "OUT" if p.is_out else "NOT OUT"
+                if getattr(p, "is_retired", False):
+                    status = "RETIRED"
+                elif p.is_out:
+                    status = "OUT"
+                else:
+                    status = "NOT OUT"
                 batting_data.append([name, status, p.runs, p.balls_faced, p.fours, p.sixes, f"{p.strike_rate:.1f}"])
         
         if len(batting_data) > 1:

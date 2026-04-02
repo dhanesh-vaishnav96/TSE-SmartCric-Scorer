@@ -70,9 +70,16 @@
                 </thead>
                 <tbody>
                     {% for p_name, p in team.players.items() %}
-                    {% if p.balls_faced > 0 %}
+                    {% if p.balls_faced > 0 or p.is_retired %}
                     <tr>
-                        <td><strong>{{ p.name }}</strong> {{ "(not out)" if not p.is_out else "" }}</td>
+                        <td>
+                            <strong>{{ p.name }}</strong> 
+                            {% if p.is_retired %}
+                                <span style="color: var(--accent); font-size: 0.8rem;">(Retired)</span>
+                            {% elif not p.is_out %}
+                                <span style="color: var(--text-muted); font-size: 0.8rem;">(not out)</span>
+                            {% endif %}
+                        </td>
                         <td>{{ p.runs }}</td>
                         <td>{{ p.balls_faced }}</td>
                         <td>{{ p.fours }}</td>

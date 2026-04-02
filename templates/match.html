@@ -72,7 +72,11 @@
                 </form>
                 <form action="/update-score" method="post"><input type="hidden" name="action" value="bye"><input type="hidden" name="value" value="1"><button type="submit" class="btn btn-outline" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">BYE</button></form>
                 <form action="/update-score" method="post"><input type="hidden" name="action" value="leg_bye"><input type="hidden" name="value" value="1"><button type="submit" class="btn btn-outline" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">L.B.</button></form>
-                <form action="/update-score" method="post" style="grid-column: span 2;">
+                <form action="/update-score" method="post">
+                    <input type="hidden" name="action" value="retire">
+                    <button type="submit" class="btn btn-warning" style="width: 100%; padding: 0.5rem; font-size: 0.75rem; background: linear-gradient(135deg, #f59e0b, #d97706); border: none;">RETIRE</button>
+                </form>
+                <form action="/update-score" method="post">
                     <input type="hidden" name="action" value="wicket">
                     <button type="submit" class="btn btn-danger" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">OUT!</button>
                 </form>

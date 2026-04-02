@@ -6,6 +6,10 @@ from routes import history, match_routes
 
 app = FastAPI(title="🏏 TSE SmartCric Scorer")
 
+@app.on_event("startup")
+async def startup_event():
+    print("🚀 TSE SmartCric Scorer Version 3.1 Live (Template fix applied)")
+
 # Mount Static Files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 

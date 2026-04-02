@@ -12,6 +12,7 @@ class Player:
         self.runs_conceded = 0
         self.wickets_taken = 0
         self.is_out = False
+        self.is_retired = False
 
     def to_dict(self):
         return {
@@ -25,6 +26,7 @@ class Player:
             "runs_conceded": self.runs_conceded,
             "wickets_taken": self.wickets_taken,
             "is_out": self.is_out,
+            "is_retired": self.is_retired,
             "strike_rate": self.strike_rate,
             "economy": self.economy,
             "overs_formatted": self.overs_formatted
@@ -42,6 +44,7 @@ class Player:
         p.runs_conceded = data.get("runs_conceded", 0)
         p.wickets_taken = data.get("wickets_taken", 0)
         p.is_out = data.get("is_out", False)
+        p.is_retired = data.get("is_retired", False)
         return p
 
     @property
@@ -275,6 +278,12 @@ class Match:
             self.striker.balls_faced += 1
             self.striker.is_out = True
             self.current_bowler.wickets_taken += 1
+            # Striker will be replaced by UI interaction
+
+        elif action == "retire":
+            self.striker.is_out = True
+            self.striker.is_retired = True
+            # No wickets incremented
             # Striker will be replaced by UI interaction
 
         # Global updates
