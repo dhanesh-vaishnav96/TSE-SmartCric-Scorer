@@ -29,7 +29,7 @@ async def start_match(
 async def toss_page(request: Request):
     if not state.current_match:
         return RedirectResponse(url="/")
-    return templates.TemplateResponse("toss.html", {"request": request, "match": state.current_match})
+    return templates.TemplateResponse(request=request, name="toss.html", context={"match": state.current_match})
 
 @router.post("/toss-choice")
 async def toss_choice(
@@ -55,7 +55,7 @@ async def toss_choice(
 async def setup_players(request: Request):
     if not state.current_match:
         return RedirectResponse(url="/")
-    return templates.TemplateResponse("setup_players.html", {"request": request, "match": state.current_match})
+    return templates.TemplateResponse(request=request, name="setup_players.html", context={"match": state.current_match})
 
 @router.post("/initialize-players")
 async def initialize_players(
@@ -81,7 +81,7 @@ async def match_screen(request: Request):
     if not state.current_match.striker or (state.current_match.match_mode == 'double' and not state.current_match.non_striker):
          return RedirectResponse(url="/new-batsman", status_code=303)
     
-    return templates.TemplateResponse("match.html", {"request": request, "match": state.current_match})
+    return templates.TemplateResponse(request=request, name="match.html", context={"match": state.current_match})
 
 @router.post("/update-score")
 async def update_score(action: str = Form(...), value: int = Form(0)):
@@ -108,7 +108,7 @@ async def update_score(action: str = Form(...), value: int = Form(0)):
 
 @router.get("/new-batsman", response_class=HTMLResponse)
 async def new_batsman_page(request: Request):
-    return templates.TemplateResponse("new_batsman.html", {"request": request, "match": state.current_match})
+    return templates.TemplateResponse(request=request, name="new_batsman.html", context={"match": state.current_match})
 
 @router.post("/set-batsman")
 async def set_batsman(name: str = Form(...)):
@@ -117,7 +117,7 @@ async def set_batsman(name: str = Form(...)):
 
 @router.get("/new-bowler", response_class=HTMLResponse)
 async def new_bowler_page(request: Request):
-    return templates.TemplateResponse("new_bowler.html", {"request": request, "match": state.current_match})
+    return templates.TemplateResponse(request=request, name="new_bowler.html", context={"match": state.current_match})
 
 @router.post("/set-bowler")
 async def set_bowler(name: str = Form(...)):
@@ -128,7 +128,7 @@ async def set_bowler(name: str = Form(...)):
 async def scorecard(request: Request):
     if not state.current_match:
          return RedirectResponse("/")
-    return templates.TemplateResponse("scorecard.html", {"request": request, "match": state.current_match})
+    return templates.TemplateResponse(request=request, name="scorecard.html", context={"match": state.current_match})
 
 @router.get("/download-pdf")
 async def download_pdf():

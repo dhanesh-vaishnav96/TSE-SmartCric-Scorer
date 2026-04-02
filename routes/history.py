@@ -36,12 +36,15 @@ async def index(request: Request):
 
     is_in_progress = state.current_match is not None and not state.current_match.is_finished
     
-    return templates.TemplateResponse("index.html", {
-        "request": request, 
-        "match": state.current_match, 
-        "saved_matches": saved_matches,
-        "is_in_progress": is_in_progress
-    })
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html", 
+        context={
+            "match": state.current_match, 
+            "saved_matches": saved_matches,
+            "is_in_progress": is_in_progress
+        }
+    )
 
 @router.get("/view-saved-match/{filename}", response_class=HTMLResponse)
 async def view_saved_match(request: Request, filename: str):
@@ -53,12 +56,15 @@ async def view_saved_match(request: Request, filename: str):
         with open(file_path, "r") as f:
             data = json.load(f)
             match_obj = Match.from_dict(data)
-            return templates.TemplateResponse("scorecard.html", {
-                "request": request, 
-                "match": match_obj, 
-                "is_saved_view": True,
-                "match_filename": filename
-            })
+            return templates.TemplateResponse(
+                request=request,
+                name="scorecard.html", 
+                context={
+                    "match": match_obj, 
+                    "is_saved_view": True,
+                    "match_filename": filename
+                }
+            )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error loading match: {str(e)}")
 
