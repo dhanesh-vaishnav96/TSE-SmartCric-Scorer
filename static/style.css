@@ -27,20 +27,32 @@ body {
 }
 
 .container {
-    max-width: 900px;
+    max-width: 800px;
     margin: 0 auto;
-    padding: 1rem;
-    width: 100%;
+    padding: 2rem 1rem;
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 1rem 0.5rem;
+    }
 }
 
 .card {
     background: var(--card-bg);
-    border-radius: 1.25rem;
-    padding: 1.5rem;
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
     border: 1px solid var(--border);
-    margin-bottom: 1.5rem;
-    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 640px) {
+    .card {
+        padding: 1rem;
+        border-radius: 0.75rem;
+        margin-bottom: 1rem;
+    }
 }
 
 h1, h2, h3 {
@@ -138,17 +150,12 @@ input:focus, select:focus {
 .score {
     font-size: clamp(2.5rem, 10vw, 4rem);
     font-weight: 800;
-    margin: 0.25rem 0;
-    background: linear-gradient(135deg, #fff, #94a3b8);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    margin: 0.5rem 0;
 }
 
 .overs {
     color: var(--text-muted);
-    font-size: clamp(0.9rem, 3vw, 1.125rem);
-    letter-spacing: 0.05em;
+    font-size: clamp(0.9rem, 4vw, 1.125rem);
 }
 
 .stats-grid {
@@ -173,37 +180,27 @@ input:focus, select:focus {
 }
 
 .stat-value {
-    font-size: clamp(1rem, 4vw, 1.25rem);
+    font-size: 1.25rem;
     font-weight: 700;
-}
-
-.table-container {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin-bottom: 1rem;
-    border-radius: 0.5rem;
-}
-
-.table-container::-webkit-scrollbar {
-    height: 4px;
-}
-
-.table-container::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 10px;
 }
 
 /* Control Buttons */
 .controls {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 0.5rem;
+}
+
+@media (max-width: 480px) {
+    .controls {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 .run-btn {
     aspect-ratio: 1;
-    font-size: 1.25rem;
+    font-size: 1.125rem;
+    padding: 0.5rem !important;
 }
 
 /* Transition Effects */
@@ -216,11 +213,18 @@ input:focus, select:focus {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Table Styles */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+}
+
 table {
     width: 100%;
+    min-width: 400px; /* Ensures table doesn't compress too much */
     border-collapse: collapse;
-    margin-top: 1rem;
 }
 
 th {
@@ -238,56 +242,7 @@ td {
 
 .player-active {
     border-left: 4px solid var(--primary);
-    background: rgba(99, 102, 241, 0.08);
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 0.75rem;
-    }
-    
-    .card {
-        padding: 1.25rem;
-        border-radius: 1rem;
-    }
-    
-    .stats-grid {
-        gap: 0.75rem;
-    }
-    
-    .stat-box {
-        padding: 0.75rem 0.5rem;
-    }
-    
-    table th, table td {
-        padding: 0.75rem 0.5rem;
-        font-size: 0.85rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .title-main {
-        font-size: 1.5rem !important;
-    }
-    
-    .score {
-        font-size: 3rem;
-    }
-    
-    .controls {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.5rem;
-    }
-    
-    .run-btn {
-        padding: 0.75rem !important;
-        font-size: 1.1rem;
-    }
-    
-    .btn {
-        padding: 0.6rem 1rem;
-        font-size: 0.85rem;
-    }
+    background: rgba(99, 102, 241, 0.05);
 }
 
 /* Coin Toss Styles */
@@ -370,4 +325,22 @@ td {
     justify-content: center;
 }
 
-/* Removed old simple media query */
+@media (max-width: 768px) {
+    .toss-choice-btns {
+        flex-direction: column;
+    }
+    
+    .toss-choice-btns .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-value {
+        font-size: 1rem;
+    }
+    
+    td, th {
+        padding: 0.75rem 0.5rem;
+    }
+}

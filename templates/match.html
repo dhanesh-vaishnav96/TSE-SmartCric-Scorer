@@ -6,13 +6,6 @@
     <title>Live Score | Cricket Pro</title>
     <link rel="stylesheet" href="/static/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        .title-gradient {
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-    </style>
 </head>
 <body>
     <div class="container fade-in">
@@ -145,5 +138,21 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Save scroll position before the page reloads
+        window.onbeforeunload = function() {
+            sessionStorage.setItem('matchScrollPos', window.scrollY);
+        };
+
+        // Restore scroll position after the page loads
+        window.onload = function() {
+            const scrollPos = sessionStorage.getItem('matchScrollPos');
+            if (scrollPos) {
+                window.scrollTo(0, scrollPos);
+                sessionStorage.removeItem('matchScrollPos');
+            }
+        };
+    </script>
 </body>
 </html>

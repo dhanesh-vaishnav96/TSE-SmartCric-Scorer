@@ -24,24 +24,24 @@
             
             {% if match.is_finished %}
             {% set motm_player, motm_points = match.man_of_the_match %}
-            <div class="card" style="background: rgba(255, 215, 0, 0.1); border: 2px solid #ffd700; margin-top: 1.5rem; padding: 1rem; text-align: center; border-radius: 12px;">
-                <div style="display: flex; align-items: center; justify-content: center; gap: 1rem;">
-                    <span style="font-size: 1.5rem;">🏆</span>
-                    <div style="text-align: left;">
-                        <span style="display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #ffd700; font-weight: 800;">Man of the Match</span>
-                        <strong style="font-size: 1.5rem; color: #fff;">{{ motm_player.name }}</strong>
-                        <div style="font-size: 0.85rem; color: #ccc; margin-top: 5px;">
+            <div class="card motm-card" style="background: rgba(255, 215, 0, 0.1); border: 2px solid #ffd700; margin-top: 1.5rem; padding: 1.5rem; text-align: center; border-radius: 12px;">
+                <div class="motm-container" style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+                    <span class="motm-icon" style="font-size: 2.5rem;">🏆</span>
+                    <div class="motm-details" style="text-align: left; flex: 1; min-width: 200px;">
+                        <span style="display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #ffd700; font-weight: 800; margin-bottom: 0.25rem;">Man of the Match</span>
+                        <strong style="font-size: clamp(1.25rem, 5vw, 1.75rem); color: #fff; line-height: 1.2;">{{ motm_player.name }}</strong>
+                        <div style="font-size: 0.85rem; color: #ccc; margin-top: 8px; display: flex; flex-wrap: wrap; gap: 0.75rem;">
                             {% if motm_player.balls_faced > 0 %}
-                            <span style="margin-right: 10px;">🏏 Batting: <strong>{{ motm_player.runs }}</strong> ({{ motm_player.balls_faced }})</span>
+                            <span>🏏 Batting: <strong>{{ motm_player.runs }}</strong> ({{ motm_player.balls_faced }})</span>
                             {% endif %}
                             {% if motm_player.balls_bowled > 0 %}
                             <span>🎯 Bowling: <strong>{{ motm_player.wickets_taken }}/{{ motm_player.runs_conceded }}</strong> ({{ motm_player.overs_formatted }})</span>
                             {% endif %}
                         </div>
                     </div>
-                    <div style="margin-left: 2rem; padding-left: 2rem; border-left: 1px solid rgba(255,215,0,0.3);">
-                        <span style="display: block; font-size: 0.7rem; color: var(--text-muted);">POINTS</span>
-                        <strong style="font-size: 1.2rem; color: #ffd700;">{{ motm_points }}</strong>
+                    <div class="motm-points" style="padding: 0.5rem 1.5rem; background: rgba(255,215,0,0.1); border-radius: 8px; border: 1px solid rgba(255,215,0,0.2);">
+                        <span style="display: block; font-size: 0.7rem; color: #aaa; text-transform: uppercase;">Points</span>
+                        <strong style="font-size: 1.5rem; color: #ffd700;">{{ motm_points }}</strong>
                     </div>
                 </div>
             </div>
