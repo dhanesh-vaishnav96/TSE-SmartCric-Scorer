@@ -27,18 +27,20 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 1rem;
+    width: 100%;
 }
 
 .card {
     background: var(--card-bg);
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
     border: 1px solid var(--border);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
 }
 
 h1, h2, h3 {
@@ -134,14 +136,19 @@ input:focus, select:focus {
 }
 
 .score {
-    font-size: 3.5rem;
+    font-size: clamp(2.5rem, 10vw, 4rem);
     font-weight: 800;
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
+    background: linear-gradient(135deg, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .overs {
     color: var(--text-muted);
-    font-size: 1.125rem;
+    font-size: clamp(0.9rem, 3vw, 1.125rem);
+    letter-spacing: 0.05em;
 }
 
 .stats-grid {
@@ -166,8 +173,25 @@ input:focus, select:focus {
 }
 
 .stat-value {
-    font-size: 1.25rem;
+    font-size: clamp(1rem, 4vw, 1.25rem);
     font-weight: 700;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+}
+
+.table-container::-webkit-scrollbar {
+    height: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
 }
 
 /* Control Buttons */
@@ -214,7 +238,56 @@ td {
 
 .player-active {
     border-left: 4px solid var(--primary);
-    background: rgba(99, 102, 241, 0.05);
+    background: rgba(99, 102, 241, 0.08);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0.75rem;
+    }
+    
+    .card {
+        padding: 1.25rem;
+        border-radius: 1rem;
+    }
+    
+    .stats-grid {
+        gap: 0.75rem;
+    }
+    
+    .stat-box {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    table th, table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title-main {
+        font-size: 1.5rem !important;
+    }
+    
+    .score {
+        font-size: 3rem;
+    }
+    
+    .controls {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .run-btn {
+        padding: 0.75rem !important;
+        font-size: 1.1rem;
+    }
+    
+    .btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
 }
 
 /* Coin Toss Styles */
@@ -297,8 +370,4 @@ td {
     justify-content: center;
 }
 
-@media (max-width: 600px) {
-    .controls {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
+/* Removed old simple media query */

@@ -57,71 +57,75 @@
             </div>
 
             <h3>Batting</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Batsman</th>
-                        <th>R</th>
-                        <th>B</th>
-                        <th>4s</th>
-                        <th>6s</th>
-                        <th>SR</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for p_name, p in team.players.items() %}
-                    {% if p.balls_faced > 0 or p.is_retired %}
-                    <tr>
-                        <td>
-                            <strong>{{ p.name }}</strong> 
-                            {% if p.is_retired %}
-                                <span style="color: var(--accent); font-size: 0.8rem;">(Retired)</span>
-                            {% elif not p.is_out %}
-                                <span style="color: var(--text-muted); font-size: 0.8rem;">(not out)</span>
-                            {% endif %}
-                        </td>
-                        <td>{{ p.runs }}</td>
-                        <td>{{ p.balls_faced }}</td>
-                        <td>{{ p.fours }}</td>
-                        <td>{{ p.sixes }}</td>
-                        <td>{{ p.strike_rate }}</td>
-                    </tr>
-                    {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Batsman</th>
+                            <th>R</th>
+                            <th>B</th>
+                            <th>4s</th>
+                            <th>6s</th>
+                            <th>SR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p_name, p in team.players.items() %}
+                        {% if p.balls_faced > 0 or p.is_retired %}
+                        <tr>
+                            <td>
+                                <strong>{{ p.name }}</strong> 
+                                {% if p.is_retired %}
+                                    <span style="color: var(--accent); font-size: 0.8rem;">(Retired)</span>
+                                {% elif not p.is_out %}
+                                    <span style="color: var(--text-muted); font-size: 0.8rem;">(not out)</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ p.runs }}</td>
+                            <td>{{ p.balls_faced }}</td>
+                            <td>{{ p.fours }}</td>
+                            <td>{{ p.sixes }}</td>
+                            <td>{{ p.strike_rate }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             <div style="margin-top: 1rem; color: var(--text-muted); font-size: 0.875rem;">
                 <strong>Extras:</strong> {{ team.total_extras }} (w {{ team.extras.wide }}, nb {{ team.extras.no_ball }}, b {{ team.extras.bye }}, lb {{ team.extras.leg_bye }})
             </div>
 
             <h3 style="margin-top: 2rem;">Bowling</h3>
             {% set bowling_team = match.team_b if team == match.team_a else match.team_a %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Bowler</th>
-                        <th>O</th>
-                        <th>M</th>
-                        <th>R</th>
-                        <th>W</th>
-                        <th>ECO</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for p_name, p in bowling_team.players.items() %}
-                    {% if p.balls_bowled > 0 %}
-                    <tr>
-                        <td><strong>{{ p.name }}</strong></td>
-                        <td>{{ p.overs_formatted }}</td>
-                        <td>0</td>
-                        <td>{{ p.runs_conceded }}</td>
-                        <td>{{ p.wickets_taken }}</td>
-                        <td>{{ p.economy }}</td>
-                    </tr>
-                    {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bowler</th>
+                            <th>O</th>
+                            <th>M</th>
+                            <th>R</th>
+                            <th>W</th>
+                            <th>ECO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p_name, p in bowling_team.players.items() %}
+                        {% if p.balls_bowled > 0 %}
+                        <tr>
+                            <td><strong>{{ p.name }}</strong></td>
+                            <td>{{ p.overs_formatted }}</td>
+                            <td>0</td>
+                            <td>{{ p.runs_conceded }}</td>
+                            <td>{{ p.wickets_taken }}</td>
+                            <td>{{ p.economy }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
         {% endfor %}
 

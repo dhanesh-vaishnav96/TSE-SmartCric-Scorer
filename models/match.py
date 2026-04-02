@@ -283,6 +283,7 @@ class Match:
         elif action == "retire":
             self.striker.is_out = True
             self.striker.is_retired = True
+            ball_counted = False
             # No wickets incremented
             # Striker will be replaced by UI interaction
 

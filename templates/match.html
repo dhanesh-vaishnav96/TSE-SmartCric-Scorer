@@ -6,6 +6,13 @@
     <title>Live Score | Cricket Pro</title>
     <link rel="stylesheet" href="/static/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        .title-gradient {
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 </head>
 <body>
     <div class="container fade-in">
@@ -85,53 +92,57 @@
 
         <!-- Current Players -->
         <div class="card" style="padding: 1rem;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Batsman</th>
-                        <th>R</th>
-                        <th>B</th>
-                        <th>SR</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="player-active">
-                        <td><strong>{{ match.striker.name }} *</strong></td>
-                        <td>{{ match.striker.runs }}</td>
-                        <td>{{ match.striker.balls_faced }}</td>
-                        <td>{{ match.striker.strike_rate }}</td>
-                    </tr>
-                    {% if match.match_mode == 'double' %}
-                    <tr>
-                        <td>{{ match.non_striker.name }}</td>
-                        <td>{{ match.non_striker.runs }}</td>
-                        <td>{{ match.non_striker.balls_faced }}</td>
-                        <td>{{ match.non_striker.strike_rate }}</td>
-                    </tr>
-                    {% endif %}
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Batsman</th>
+                            <th>R</th>
+                            <th>B</th>
+                            <th>SR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="player-active">
+                            <td><strong>{{ match.striker.name }} *</strong></td>
+                            <td>{{ match.striker.runs }}</td>
+                            <td>{{ match.striker.balls_faced }}</td>
+                            <td>{{ match.striker.strike_rate }}</td>
+                        </tr>
+                        {% if match.match_mode == 'double' %}
+                        <tr>
+                            <td>{{ match.non_striker.name }}</td>
+                            <td>{{ match.non_striker.runs }}</td>
+                            <td>{{ match.non_striker.balls_faced }}</td>
+                            <td>{{ match.non_striker.strike_rate }}</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
 
-            <table style="margin-top: 1.5rem;">
-                <thead>
-                    <tr>
-                        <th>Bowler</th>
-                        <th>O</th>
-                        <th>R</th>
-                        <th>W</th>
-                        <th>ECO</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>{{ match.current_bowler.name }}</strong></td>
-                        <td>{{ match.current_bowler.overs_formatted }}</td>
-                        <td>{{ match.current_bowler.runs_conceded }}</td>
-                        <td>{{ match.current_bowler.wickets_taken }}</td>
-                        <td>{{ match.current_bowler.economy }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table style="margin-top: 1.5rem;">
+                    <thead>
+                        <tr>
+                            <th>Bowler</th>
+                            <th>O</th>
+                            <th>R</th>
+                            <th>W</th>
+                            <th>ECO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>{{ match.current_bowler.name }}</strong></td>
+                            <td>{{ match.current_bowler.overs_formatted }}</td>
+                            <td>{{ match.current_bowler.runs_conceded }}</td>
+                            <td>{{ match.current_bowler.wickets_taken }}</td>
+                            <td>{{ match.current_bowler.economy }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>
