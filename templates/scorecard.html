@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Scorecard | Cricket Pro</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container fade-in">
+        <header style="text-align: center; margin-bottom: 2rem;">
+            <h1 class="title-main" style="font-size: 2.2rem; margin-bottom: 0.5rem;">🏏 TSE SmartCric Scorer</h1>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Match Results & Summary</p>
+        </header>
+        {% if is_saved_view %}
+        <div style="margin-bottom: 2rem;">
+            <a href="/" class="btn" style="background: var(--secondary);">&larr; Back to History</a>
+        </div>
+        {% endif %}
+            <div class="card" style="background: var(--primary); margin-top: 1rem; padding: 1rem; text-align: center;">
+                <h2 style="margin: 0; color: white;">{{ match.status_message }}</h2>
+            </div>
+            
+            {% if match.is_finished %}
+            {% set motm_player, motm_points = match.man_of_the_match %}
+            <div class="card" style="background: rgba(255, 215, 0, 0.1); border: 2px solid #ffd700; margin-top: 1.5rem; padding: 1rem; text-align: center; border-radius: 12px;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 1rem;">
+                    <span style="font-size: 1.5rem;">🏆</span>
+                    <div style="text-align: left;">
+                        <span style="display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #ffd700; font-weight: 800;">Man of the Match</span>
+                        <strong style="font-size: 1.5rem; color: #fff;">{{ motm_player.name }}</strong>
+                        <div style="font-size: 0.85rem; color: #ccc; margin-top: 5px;">
+                            {% if motm_player.balls_faced > 0 %}
+                            <span style="margin-right: 10px;">🏏 Batting: <strong>{{ motm_player.runs }}</strong> ({{ motm_player.balls_faced }})</span>
+                            {% endif %}
+                            {% if motm_player.balls_bowled > 0 %}
+                            <span>🎯 Bowling: <strong>{{ motm_player.wickets_taken }}/{{ motm_player.runs_conceded }}</strong> ({{ motm_player.overs_formatted }})</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div style="margin-left: 2rem; padding-left: 2rem; border-left: 1px solid rgba(255,215,0,0.3);">
+                        <span style="display: block; font-size: 0.7rem; color: var(--text-muted);">POINTS</span>
+                        <strong style="font-size: 1.2rem; color: #ffd700;">{{ motm_points }}</strong>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </header>
+
+        {% set teams = [match.team_a, match.team_b] %}
+        {% for team in teams %}
+        <div class="card" style="margin-bottom: 3rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid var(--border); padding-bottom: 1rem; margin-bottom: 1rem;">
+                <h2>{{ team.name }}'s Innings</h2>
+                <div style="font-size: 1.5rem; font-weight: 800;">{{ team.runs }} / {{ team.wickets }} <span style="font-size: 1rem; color: var(--text-muted);">({{ team.overs_formatted }})</span></div>
+            </div>
+
+            <h3>Batting</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Batsman</th>
+                        <th>R</th>
+                        <th>B</th>
+                        <th>4s</th>
+                        <th>6s</th>
+                        <th>SR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p_name, p in team.players.items() %}
+                    {% if p.balls_faced > 0 %}
+                    <tr>
+                        <td><strong>{{ p.name }}</strong> {{ "(not out)" if not p.is_out else "" }}</td>
+                        <td>{{ p.runs }}</td>
+                        <td>{{ p.balls_faced }}</td>
+                        <td>{{ p.fours }}</td>
+                        <td>{{ p.sixes }}</td>
+                        <td>{{ p.strike_rate }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div style="margin-top: 1rem; color: var(--text-muted); font-size: 0.875rem;">
+                <strong>Extras:</strong> {{ team.total_extras }} (w {{ team.extras.wide }}, nb {{ team.extras.no_ball }}, b {{ team.extras.bye }}, lb {{ team.extras.leg_bye }})
+            </div>
+
+            <h3 style="margin-top: 2rem;">Bowling</h3>
+            {% set bowling_team = match.team_b if team == match.team_a else match.team_a %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bowler</th>
+                        <th>O</th>
+                        <th>M</th>
+                        <th>R</th>
+                        <th>W</th>
+                        <th>ECO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p_name, p in bowling_team.players.items() %}
+                    {% if p.balls_bowled > 0 %}
+                    <tr>
+                        <td><strong>{{ p.name }}</strong></td>
+                        <td>{{ p.overs_formatted }}</td>
+                        <td>0</td>
+                        <td>{{ p.runs_conceded }}</td>
+                        <td>{{ p.wickets_taken }}</td>
+                        <td>{{ p.economy }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endfor %}
+
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 4rem; flex-wrap: wrap;">
+            {% if is_saved_view %}
+            <a href="/download-saved-pdf/{{ match_filename }}" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.125rem;">Download PDF ScoreCard</a>
+            {% else %}
+            <a href="/download-pdf" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.125rem;">Download PDF ScoreCard</a>
+            
+            <form action="/save-match" method="POST">
+                <button type="submit" class="btn btn-secondary" style="padding: 1rem 2rem; font-size: 1.125rem;">Save Match</button>
+            </form>
+
+            <form action="/discard-match" method="POST" onsubmit="return confirm('Are you sure you want to discard this match? Data will not be saved.')">
+                <button type="submit" class="btn btn-outline" style="background: rgba(255, 68, 68, 0.1); color: #ff4444; border-color: #ff4444; padding: 1rem 2rem; font-size: 1.125rem;">Discard Match</button>
+            </form>
+            {% endif %}
+
+            <a href="/" class="btn btn-outline" style="padding: 1rem 2rem; font-size: 1.125rem;">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

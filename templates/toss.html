@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Toss | Cricket Pro</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container fade-in">
+        <header style="text-align: center; margin-bottom: 2rem;">
+            <h1 class="title-main" style="font-size: 2.2rem; margin-bottom: 0.5rem;">🏏 TSE SmartCric Scorer</h1>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">The Toss Ceremony</p>
+        </header>
+
+        <div class="card" id="toss-selection">
+            <h2 style="text-align: center; margin-bottom: 2rem;">{{ match.team_a.name }}, choose your side!</h2>
+            <div style="display: flex; gap: 2rem; justify-content: center; margin-bottom: 1rem;">
+                <button onclick="startToss('heads')" class="btn btn-outline" style="flex: 1; padding: 2rem; display: flex; flex-direction: column; align-items: center;">
+                    <span style="font-size: 3rem; margin-bottom: 1rem;">🪙</span>
+                    <span style="font-weight: 800; letter-spacing: 0.1em;">HEADS</span>
+                </button>
+                <button onclick="startToss('tails')" class="btn btn-outline" style="flex: 1; padding: 2rem; display: flex; flex-direction: column; align-items: center;">
+                    <span style="font-size: 3rem; margin-bottom: 1rem;">📀</span>
+                    <span style="font-weight: 800; letter-spacing: 0.1em;">TAILS</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="card" id="toss-anim-container" style="display: none; text-align: center;">
+            <div class="toss-container">
+                <div id="coin" class="coin">
+                    <div class="heads">HEADS</div>
+                    <div class="tails">TAILS</div>
+                </div>
+            </div>
+            <p id="toss-status" style="font-size: 1.25rem; font-weight: 600; color: var(--text-muted);">Flipping...</p>
+        </div>
+
+        <div id="toss-result" class="toss-winner-card">
+            <h2 id="winner-text" style="color: var(--secondary); margin-bottom: 0.5rem; font-weight: 800;"></h2>
+            <p id="result-text" style="margin-bottom: 1.5rem; color: white;"></p>
+            
+            <form action="/toss-choice" method="post">
+                <input type="hidden" name="winner" id="winner-input">
+                <div class="toss-choice-btns">
+                    <button name="choice" value="bat" class="btn btn-primary" style="padding: 1rem 2rem;">Bat First</button>
+                    <button name="choice" value="bowl" class="btn btn-secondary" style="padding: 1rem 2rem;">Bowl First</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function startToss(userChoice) {
+            document.getElementById('toss-selection').style.display = 'none';
+            document.getElementById('toss-anim-container').style.display = 'block';
+            
+            const coin = document.getElementById('coin');
+            const result = Math.random() < 0.5 ? 'heads' : 'tails';
+            
+            // Trigger animation
+            setTimeout(() => {
+                coin.classList.add('flipping-' + result);
+            }, 100);
+            
+            setTimeout(() => {
+                document.getElementById('toss-status').textContent = 'Result: ' + result.toUpperCase();
+                
+                const teamA = "{{ match.team_a.name }}";
+                const teamB = "{{ match.team_b.name }}";
+                let winnerTeam, winnerId;
+                
+                if (userChoice === result) {
+                    winnerTeam = teamA;
+                    winnerId = "team_a";
+                } else {
+                    winnerTeam = teamB;
+                    winnerId = "team_b";
+                }
+                
+                document.getElementById('winner-text').textContent = winnerTeam.toUpperCase() + " WON THE TOSS!";
+                document.getElementById('result-text').textContent = "It was " + result.toUpperCase() + ". " + winnerTeam + ", what would you like to do?";
+                document.getElementById('winner-input').value = winnerId;
+                document.getElementById('toss-result').style.display = 'block';
+                
+                // Scroll to result
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }, 3200);
+        }
+    </script>
+</body>
+</html>

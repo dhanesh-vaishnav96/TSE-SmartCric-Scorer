@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏏 TSE SmartCric Scorer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container fade-in">
+        <header style="text-align: center; margin-bottom: 2rem;">
+            <h1 class="title-main" style="font-size: 2.2rem; margin-bottom: 0.5rem;">🏏 TSE SmartCric Scorer</h1>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Player Setup ({{ match.batting_team.name }})</p>
+        </header>
+         <form action="/initialize-players" method="post" class="card">
+            <h2>Player Setup</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Enter opening batsman and first bowler</p>
+
+            <div class="form-group">
+                <p><strong>Batting Team:</strong> <span class="title-gradient">{{ match.batting_team.name }}</span></p>
+            </div>
+
+            <div class="form-group">
+                <label for="striker">Striker Name</label>
+                <input type="text" id="striker" name="striker" placeholder="e.g. Rohit" required>
+            </div>
+
+            {% if match.match_mode == 'double' %}
+            <div class="form-group">
+                <label for="non_striker">Non-Striker Name</label>
+                <input type="text" id="non_striker" name="non_striker" placeholder="e.g. Gill" required>
+            </div>
+            {% endif %}
+
+            <div class="form-group" style="margin-top: 2rem;">
+                <p><strong>Bowling Team:</strong> <span class="title-gradient">{{ match.bowling_team.name }}</span></p>
+            </div>
+
+            <div class="form-group">
+                <label for="bowler">Opening Bowler</label>
+                <input type="text" id="bowler" name="bowler" placeholder="e.g. Bumrah" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Let's Go!</button>
+         </form>
+    </div>
+</body>
+</html>

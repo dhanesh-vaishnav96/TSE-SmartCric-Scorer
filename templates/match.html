@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Score | Cricket Pro</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container fade-in">
+        <!-- Header -->
+        <header style="text-align: center; margin-bottom: 2rem;">
+            <h1 class="title-main" style="font-size: 2.2rem; margin-bottom: 0.5rem;">🏏 TSE SmartCric Scorer</h1>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Live Match Center</p>
+        </header>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <p style="color: var(--text-muted); font-size: 0.875rem;">{{ match.team_a.name }} vs {{ match.team_b.name }}</p>
+                <h2 style="margin: 0;">{{ match.status_message }}</h2>
+            </div>
+            <div style="text-align: right;">
+                <p style="color: var(--accent); font-weight: 700;">INNINGS {{ match.current_innings }}</p>
+                {% if match.target %}
+                <p style="color: var(--text-muted); font-size: 0.875rem;">Target: {{ match.target }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Scoreboard -->
+        <div class="scoreboard card" style="margin-bottom: 1rem;">
+            <h1 class="title-gradient" style="margin-bottom: 0.5rem; font-size: 1.5rem;">{{ match.batting_team.name }}</h1>
+            <div class="score" style="font-size: 2.5rem;">{{ match.batting_team.runs }} / {{ match.batting_team.wickets }}</div>
+            <div class="overs">Overs: {{ match.batting_team.overs_formatted }} ({{ match.total_overs }})</div>
+            
+            <div class="stats-grid" style="margin-top: 1rem;">
+                <div class="stat-box" style="padding: 0.5rem;">
+                    <div class="stat-label" style="font-size: 0.6rem;">CRR</div>
+                    <div class="stat-value" style="font-size: 1rem;">
+                        {% set total_overs = match.batting_team.balls / 6 %}
+                        {% if total_overs > 0 %}{{ (match.batting_team.runs / total_overs) | round(2) }}{% else %}0.00{% endif %}
+                    </div>
+                </div>
+                <div class="stat-box" style="padding: 0.5rem;">
+                    <div class="stat-label" style="font-size: 0.6rem;">Extras</div>
+                    <div class="stat-value" style="font-size: 1rem;">{{ match.batting_team.total_extras }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls (Moved Up) -->
+        <div class="card" style="padding: 1.25rem; margin-bottom: 1rem;">
+            <div class="controls" style="margin-bottom: 1rem;">
+                <form action="/update-score" method="post"><input type="hidden" name="action" value="runs"><input type="hidden" name="value" value="0"><button type="submit" class="btn btn-outline run-btn" style="padding: 0.5rem;">0</button></form>
+                <form action="/update-score" method="post"><input type="hidden" name="action" value="runs"><input type="hidden" name="value" value="1"><button type="submit" class="btn btn-outline run-btn" style="padding: 0.5rem;">1</button></form>
+                <form action="/update-score" method="post"><input type="hidden" name="action" value="runs"><input type="hidden" name="value" value="2"><button type="submit" class="btn btn-outline run-btn" style="padding: 0.5rem;">2</button></form>
+                <form action="/update-score" method="post"><input type="hidden" name="action" value="runs"><input type="hidden" name="value" value="3"><button type="submit" class="btn btn-outline run-btn" style="padding: 0.5rem;">3</button></form>
+                <form action="/update-score" method="post"><input type="hidden" name="action" value="runs"><input type="hidden" name="value" value="4"><button type="submit" class="btn btn-primary run-btn" style="padding: 0.5rem;">4</button></form>
+                <form action="/update-score" method="post"><input type="hidden" name="action" value="runs"><input type="hidden" name="value" value="6"><button type="submit" class="btn btn-primary run-btn" style="padding: 0.5rem;">6</button></form>
+            </div>
+
+            <div class="controls">
+                <form action="/update-score" method="post" style="display: flex; gap: 0.25rem;">
+                    <input type="hidden" name="action" value="wide">
+                    <input type="number" name="value" value="0" min="0" max="6" style="width: 40px; padding: 0.5rem;">
+                    <button type="submit" class="btn btn-secondary" style="flex: 1; padding: 0.5rem; font-size: 0.75rem;">WIDE</button>
+                </form>
+                <form action="/update-score" method="post" style="display: flex; gap: 0.25rem;">
+                    <input type="hidden" name="action" value="no_ball">
+                    <input type="number" name="value" value="0" min="0" max="6" style="width: 40px; padding: 0.5rem;">
+                    <button type="submit" class="btn btn-secondary" style="flex: 1; padding: 0.5rem; font-size: 0.75rem;">N.B.</button>
+                </form>
+                <form action="/update-score" method="post"><input type="hidden" name="action" value="bye"><input type="hidden" name="value" value="1"><button type="submit" class="btn btn-outline" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">BYE</button></form>
+                <form action="/update-score" method="post"><input type="hidden" name="action" value="leg_bye"><input type="hidden" name="value" value="1"><button type="submit" class="btn btn-outline" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">L.B.</button></form>
+                <form action="/update-score" method="post" style="grid-column: span 2;">
+                    <input type="hidden" name="action" value="wicket">
+                    <button type="submit" class="btn btn-danger" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">OUT!</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Current Players -->
+        <div class="card" style="padding: 1rem;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Batsman</th>
+                        <th>R</th>
+                        <th>B</th>
+                        <th>SR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="player-active">
+                        <td><strong>{{ match.striker.name }} *</strong></td>
+                        <td>{{ match.striker.runs }}</td>
+                        <td>{{ match.striker.balls_faced }}</td>
+                        <td>{{ match.striker.strike_rate }}</td>
+                    </tr>
+                    {% if match.match_mode == 'double' %}
+                    <tr>
+                        <td>{{ match.non_striker.name }}</td>
+                        <td>{{ match.non_striker.runs }}</td>
+                        <td>{{ match.non_striker.balls_faced }}</td>
+                        <td>{{ match.non_striker.strike_rate }}</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+
+            <table style="margin-top: 1.5rem;">
+                <thead>
+                    <tr>
+                        <th>Bowler</th>
+                        <th>O</th>
+                        <th>R</th>
+                        <th>W</th>
+                        <th>ECO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>{{ match.current_bowler.name }}</strong></td>
+                        <td>{{ match.current_bowler.overs_formatted }}</td>
+                        <td>{{ match.current_bowler.runs_conceded }}</td>
+                        <td>{{ match.current_bowler.wickets_taken }}</td>
+                        <td>{{ match.current_bowler.economy }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

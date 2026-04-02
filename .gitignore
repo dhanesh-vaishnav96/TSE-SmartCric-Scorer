@@ -1,0 +1,14 @@
+# Python related
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# Project specific
+matches/*.json
+*.pdf
+.vscode/
+.idea/
+.DS_Store

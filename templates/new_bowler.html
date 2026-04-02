@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏏 TSE SmartCric Scorer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container fade-in">
+        <form action="/set-bowler" method="post" class="card">
+            <h2 class="btn-secondary" style="display: inline-block; padding: 0.5rem 1rem; border-radius: 0.5rem;">OVER END</h2>
+            <p style="color: var(--text-muted); margin: 1.5rem 0;">Ready for the next over? Select your bowler.</p>
+
+            <div class="form-group">
+                <label for="name">New Bowler Name</label>
+                <input type="text" id="name" name="name" placeholder="e.g. Shami" required autofocus>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Bowl Next Over</button>
+        </form>
+    </div>
+</body>
+</html>

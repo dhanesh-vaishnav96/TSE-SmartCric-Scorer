@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏏 TSE SmartCric Scorer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container fade-in">
+        <form action="/set-batsman" method="post" class="card">
+            <h2 class="btn-danger" style="display: inline-block; padding: 0.5rem 1rem; border-radius: 0.5rem;">WICKET!</h2>
+            <p style="color: var(--text-muted); margin: 1.5rem 0;">Enter the name of the new batsman walking to the crease.</p>
+
+            <div class="form-group">
+                <label for="name">New Batsman Name</label>
+                <input type="text" id="name" name="name" placeholder="e.g. Kohli" required autofocus>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Confirm</button>
+        </form>
+    </div>
+</body>
+</html>
